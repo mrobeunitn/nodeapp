@@ -36,7 +36,7 @@ app.get('/', function(request, response)
                 });
             });
         }catch(err){
-            res.redirect('http:\\www.santiandrea.com');
+            res.redirect('http://www.santiandrea.com');
         }
     });
 });
