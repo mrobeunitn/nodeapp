@@ -36,12 +36,10 @@ app.get('/', function(request, response)
                 });
             });
         }catch(err){
-            bind.toFile('./index.tpl', {
-                html_formatted:data1
-            }, function(data) {
-                response.writeHead(200);
-                response.end(data);
-                });
+            response.writeHead(302, {
+                'Location': 'www.santiandrea.com'
+              });
+              response.end();
         }
     });
 });
