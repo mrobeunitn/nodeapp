@@ -61,7 +61,9 @@ app.post('/', function(request, response)
 });
  
 //listen in a specific port
-app.listen(1337, '127.0.0.1');
+app.listen(app.get('port'), function() {
+    console.log('Node app is running on port', app.get('port'));
+  });
  
 //check status
 console.log(""+process.env.PORT);
