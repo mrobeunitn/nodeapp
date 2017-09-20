@@ -25,8 +25,8 @@ app.get('/', function(request, response)
 {
     var results;
     var outputFormatted;
+    try{
     DBmanager.getIndexImages(function(data){
-        try{
         outputIndexFormat.formatOutput(data,function(data1){
             bind.toFile('./index.tpl', {
                 html_formatted:data1
@@ -35,10 +35,11 @@ app.get('/', function(request, response)
                 response.end(data);
                 });
             });
-        }catch(err){
-            res.redirect('http://www.santiandrea.com');
-        }
     });
+    }catch(err){
+        response.writeHead(404);
+        response.end("");
+    }
 });
 
 //create a server
@@ -48,7 +49,7 @@ app.post('/', function(request, response)
     console.log(album);
     var results;
     var outputFormatted;
-    DBmanager.getImages(album,function(data){
+    DBmanager.getAlbumImages(album,function(data){
         outputIndexFormat.formatAlbumOutput(data,function(data1){
             bind.toFile('./album.tpl', {
                 html_formatted:data1
