@@ -26,6 +26,7 @@ app.get('/', function(request, response)
     var results;
     var outputFormatted;
     DBmanager.getIndexImages(function(data){
+        try{
         outputIndexFormat.formatOutput(data,function(data1){
             bind.toFile('./index.tpl', {
                 html_formatted:data1
@@ -34,6 +35,14 @@ app.get('/', function(request, response)
                 response.end(data);
                 });
             });
+        }catch(err){
+            bind.toFile('./index.tpl', {
+                html_formatted:data1
+            }, function(data) {
+                response.writeHead(200);
+                response.end(data);
+                });
+        }
     });
 });
 
