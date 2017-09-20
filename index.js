@@ -36,10 +36,7 @@ app.get('/', function(request, response)
                 });
             });
         }catch(err){
-            response.writeHead(302, {
-                'Location': 'www.santiandrea.com'
-              });
-              response.end();
+            res.redirect('http:\\www.santiandrea.com');
         }
     });
 });
