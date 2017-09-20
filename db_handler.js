@@ -17,6 +17,7 @@ var getIndexImages = function(callback){
   // connection using created pool
  
   client.connect((err) => {
+    if (err) throw err
     client.query("SELECT * FROM image WHERE index_im = $1",[true], (err, res) => {
       if (err) throw err
       var stringa_formattata = JSON.stringify(res.rows);

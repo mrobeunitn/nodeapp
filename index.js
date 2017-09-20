@@ -3,6 +3,8 @@ var http = require('http');
 var express = require('express');
 //parse URL
 var url = require('url');
+//error
+var d = require('domain').create();
 //inspect variables
 var util = require('util');
 var bind = require('bind');
@@ -25,8 +27,11 @@ app.get('/', function(request, response)
 {
     var results;
     var outputFormatted;
-    try{
-    DBmanager.getIndexImages(function(data){
+    d.on('error',function(err){
+        response.redirect("http://www.santiandrea.com");
+    });
+    d.run(function(){
+        DBmanager.getIndexImages(function(data){
         outputIndexFormat.formatOutput(data,function(data1){
             bind.toFile('./index.tpl', {
                 html_formatted:data1
@@ -35,29 +40,31 @@ app.get('/', function(request, response)
                 response.end(data);
                 });
             });
+         });
     });
-    }catch(err){
-        response.writeHead(404);
-        response.end("");
-    }
 });
 
 //create a server
-app.post('/', function(request, response) 
+app.post('/', function(request, response,err) 
 {
 	var album = request.body.album;
     console.log(album);
     var results;
     var outputFormatted;
-    DBmanager.getAlbumImages(album,function(data){
-        outputIndexFormat.formatAlbumOutput(data,function(data1){
-            bind.toFile('./album.tpl', {
-                html_formatted:data1
-            }, function(data) {
-                response.writeHead(200);
-                response.end(data);
+    d.on('error',function(err){
+        response.redirect("http://www.santiandrea.com");
+    });
+    d.run(function(){
+        DBmanager.getAlbumImages(album,function(data){
+            outputIndexFormat.formatAlbumOutput(data,function(data1){
+                bind.toFile('./album.tpl', {
+                    html_formatted:data1
+                }, function(data) {
+                    response.writeHead(200);
+                    response.end(data);
+                    });
                 });
-            });
+        });
     });
 });
  
